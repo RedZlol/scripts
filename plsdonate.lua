@@ -35,7 +35,7 @@ function serverHop()
     	--local isVip = game:GetService('RobloxReplicatedStorage').GetServerType:InvokeServer()
     	--if isVip == "VIPServer" then return end
     	local gameId
-    	gameId = "12185828271"
+    	gameId = "8737602449"
     	local servers = {}
     	local req = httprequest({
     		Url = "https://games.roblox.com/v1/games/" .. gameId .. "/servers/Public?sortOrder=Desc&limit=100"
@@ -85,9 +85,9 @@ local function sendWebhook(msg)
     })
 end
 
-local CashC = Players.LocalPlayer.leaderstats.Cash.value
-Players.LocalPlayer.leaderstats.Cash.Changed:Connect(function()
-    spinSpeed = spinSpeed + (Players.LocalPlayer.leaderstats.Cash.value - CashC)
+local RaisedC = Players.LocalPlayer.leaderstats.Raised.value
+Players.LocalPlayer.leaderstats.Raised.Changed:Connect(function()
+    spinSpeed = spinSpeed + (Players.LocalPlayer.leaderstats.Raised.value - RaisedC)
     for i,v in pairs(getRoot(game.Players.LocalPlayer.Character):GetChildren()) do
 		if v.Name == "Spinning" then
 			v:Destroy()
@@ -98,9 +98,9 @@ Players.LocalPlayer.leaderstats.Cash.Changed:Connect(function()
     Spin.Parent = getRoot(game.Players.LocalPlayer.Character)
     Spin.MaxTorque = Vector3.new(0, math.huge, 0)
     Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
-    sendWebhook("You were donated | Amount: **" .. tostring(Players.LocalPlayer.leaderstats.Cash.Value - CashC).. " robux**\nTOTAL: ".. Players.LocalPlayer.leaderstats.Cash.value)
+    sendWebhook("You were donated | Amount: **" .. tostring(Players.LocalPlayer.leaderstats.Raised.Value - RaisedC).. " robux**\nTOTAL: ".. Players.LocalPlayer.leaderstats.Raised.value)
     sendWebhook(spinSpeed)
-    CashC = Players.LocalPlayer.leaderstats.Cash.value
+    RaisedC = Players.LocalPlayer.leaderstats.Raised.value
 end)
 
 spawn(serverHop)
