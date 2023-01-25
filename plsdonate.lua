@@ -1,25 +1,54 @@
 
-
 repeat
 	task.wait()
 until game:IsLoaded()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RedZlol/scripts/main/plsdonate.lua"))()
+
+local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
+if game.PlaceId ~= 8737602449 and game.PlaceId ~= 8943844393 then
+	return
+end
 task.wait()
+local httpservice = game:GetService('HttpService')
 local spinSpeed = 20
 local Players = game:GetService("Players")
 local begMessages = {
-    'AAAAAAAAAAAAAAAAAHHHHH',
-    'WEEEEEEEEEEEEEEEEEEEEE',
-    'Donate to make me spin faster!',
-    'The more I get donated, the faster I will spin',
+    'AAAAAAAAA',
+    'WEEEEEEEEEE',
+    '🔄 Donate to make me spin faster! 🔄',
+    '🔄 The more I get donated, the faster I will spin 🔄',
     'WEEEEEEEEEE IM GONNA FLY AWAY IF I GO ANY FASTER',
-    'SPEEEEEEEEEEEEEEEED'
+    '🔄 Donate to make me spin faster! 🔄',
+    'SPEEEEEEEEED',
+    '🔄 The more robux you donate, the faster I will spin! 🔄',
+    'REEEEEEEEEEEEEE',
+    'IM SPINNING SO FAST'
 }
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('The more I get donated, the faster I will spin!',"All")
 
-
-local function serverHop()
-    while wait(30) do
-	    game:GetService("TeleportService"):Teleport(8737602449, game:GetService("Players").LocalPlayer)
+function serverHop()
+    while wait(900) do
+    	--local isVip = game:GetService('RobloxReplicatedStorage').GetServerType:InvokeServer()
+    	--if isVip == "VIPServer" then return end
+    	local gameId
+    	gameId = "8737602449"
+    	local servers = {}
+    	local req = httprequest({
+    		Url = "https://games.roblox.com/v1/games/" .. gameId .. "/servers/Public?sortOrder=Desc&limit=100"
+    	})
+    	local body = httpservice:JSONDecode(req.Body)
+    	if body and body.data then
+    		for i, v in next, body.data do
+    			if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.playing > 19 then
+    				table.insert(servers, 1, v.id)
+    			end
+    		end
+    	end
+    	if #servers > 0 then
+    		game:GetService("TeleportService"):TeleportToPlaceInstance(gameId, servers[math.random(1, #servers)], Players.LocalPlayer)
+    	end
+    	game:GetService("TeleportService").TeleportInitFailed:Connect(function()
+    		game:GetService("TeleportService"):TeleportToPlaceInstance(gameId, servers[math.random(1, #servers)], Players.LocalPlayer)
+    	end)
     end
 end
 
@@ -70,7 +99,7 @@ Players.LocalPlayer.leaderstats.Raised.Changed:Connect(function()
 end)
 
 spawn(serverHop)
-while wait(math.random(7, 10)) do
+while wait(math.random(3, 6)) do
     local msg = begMessages[math.random(1, #begMessages)]
     game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg,"All")
 end
