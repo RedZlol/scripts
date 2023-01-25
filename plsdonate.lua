@@ -4,9 +4,7 @@ repeat
 until game:IsLoaded()
 
 local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
-if game.PlaceId ~= 8737602449 and game.PlaceId ~= 8943844393 then
-	return
-end
+
 if getgenv().loadedR then
 	return
 else
@@ -37,7 +35,7 @@ function serverHop()
     	--local isVip = game:GetService('RobloxReplicatedStorage').GetServerType:InvokeServer()
     	--if isVip == "VIPServer" then return end
     	local gameId
-    	gameId = "8737602449"
+    	gameId = "12185828271"
     	local servers = {}
     	local req = httprequest({
     		Url = "https://games.roblox.com/v1/games/" .. gameId .. "/servers/Public?sortOrder=Desc&limit=100"
@@ -87,9 +85,9 @@ local function sendWebhook(msg)
     })
 end
 
-local RaisedC = Players.LocalPlayer.leaderstats.Raised.value
-Players.LocalPlayer.leaderstats.Raised.Changed:Connect(function()
-    spinSpeed = spinSpeed + (Players.LocalPlayer.leaderstats.Raised.value - RaisedC)
+local CashC = Players.LocalPlayer.leaderstats.Cash.value
+Players.LocalPlayer.leaderstats.Cash.Changed:Connect(function()
+    spinSpeed = spinSpeed + (Players.LocalPlayer.leaderstats.Cash.value - CashC)
     for i,v in pairs(getRoot(game.Players.LocalPlayer.Character):GetChildren()) do
 		if v.Name == "Spinning" then
 			v:Destroy()
@@ -100,9 +98,9 @@ Players.LocalPlayer.leaderstats.Raised.Changed:Connect(function()
     Spin.Parent = getRoot(game.Players.LocalPlayer.Character)
     Spin.MaxTorque = Vector3.new(0, math.huge, 0)
     Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
-    sendWebhook("You were donated | Amount: **" .. tostring(Players.LocalPlayer.leaderstats.Raised.Value - RaisedC).. " robux**\nTOTAL: ".. Players.LocalPlayer.leaderstats.Raised.value)
+    sendWebhook("You were donated | Amount: **" .. tostring(Players.LocalPlayer.leaderstats.Cash.Value - CashC).. " robux**\nTOTAL: ".. Players.LocalPlayer.leaderstats.Cash.value)
     sendWebhook(spinSpeed)
-    RaisedC = Players.LocalPlayer.leaderstats.Raised.value
+    CashC = Players.LocalPlayer.leaderstats.Cash.value
 end)
 
 spawn(serverHop)
