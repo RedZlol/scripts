@@ -1,9 +1,6 @@
 
-repeat
-	task.wait()
-until game:IsLoaded()
+repeat task.wait() until game:IsLoaded()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RedZlol/scripts/main/plsdonate.lua"))()
-task.wait()
 local spinSpeed = 20
 local Players = game:GetService("Players")
 local begMessages = {
