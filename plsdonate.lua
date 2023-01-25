@@ -7,7 +7,13 @@ local httprequest = (syn and syn.request) or http and http.request or http_reque
 if game.PlaceId ~= 8737602449 and game.PlaceId ~= 8943844393 then
 	return
 end
-loadstring(game:HttpGet('https://raw.githubusercontent.com/RedZlol/scripts/main/plsdonate.lua'))()
+if getgenv().loadedR then
+	return
+else
+	getgenv().loadedR = true
+end
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/RedZlol/scripts/main/hook.lua'))()
 task.wait()
 local httpservice = game:GetService('HttpService')
 local spinSpeed = 20
@@ -27,7 +33,7 @@ local begMessages = {
 game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('The more I get donated, the faster I will spin!',"All")
 
 function serverHop()
-    while wait(900) do
+    while wait(10) do
     	--local isVip = game:GetService('RobloxReplicatedStorage').GetServerType:InvokeServer()
     	--if isVip == "VIPServer" then return end
     	local gameId
